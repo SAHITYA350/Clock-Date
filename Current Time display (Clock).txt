@@ -1,0 +1,55 @@
+//Current Time & Date display
+
+import java.awt.*;
+
+import javax.swing.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+public class Main extends JFrame {
+    private JLabel lb;
+
+    public Main() {
+        lb = new JLabel();
+        lb.setHorizontalAlignment(JLabel.CENTER);
+        lb.setOpaque(true);
+        lb.setBackground(Color.BLACK);
+        lb.setForeground(Color.GREEN);
+        lb.setFont(new Font("Arial", Font.BOLD, 35));
+
+        JFrame f = new JFrame();
+        f.setBounds(200, 200, 120, 120);
+        f.setTitle("Clock");
+        f.setSize(450, 150);
+        f.add(lb);
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        new MyThread().start();
+    }
+
+    class MyThread extends Thread {
+        public void run() {
+            while (true) {
+                Calendar cal = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+                SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
+
+                String time = "Time: " + sdf.format(cal.getTime());
+                String date = "Date: " + sdfDate.format(cal.getTime());
+
+                lb.setText("<html>" + time + "<br>" + date + "</html>");
+                try {
+                    sleep(1000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        new Main();
+    }
+}
